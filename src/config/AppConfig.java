@@ -1,3 +1,4 @@
+package config;
 import java.awt.Color;
 
 public class AppConfig {
@@ -16,6 +17,12 @@ public class AppConfig {
         // Background color of the Main window
         public static Color BACKGROUND_COLOR = new Color(255, 255, 255, 255);
 
+        // Data file location
+        public static String DATA_FILE_LOCATION = ".\\build\\.ikigai_task";
+
+        // Data file name
+        public static String DATA_FILE = "data.iki";
+
         @Override
         public String getTitle() {
             return TITLE;
@@ -34,6 +41,16 @@ public class AppConfig {
         @Override
         public Color getBackgroundColor() {
             return BACKGROUND_COLOR;
+        }
+
+        @Override
+        public String getDataFileLocation() {
+            return DATA_FILE_LOCATION;
+        }
+
+        @Override
+        public String getDataFile() {
+            return DATA_FILE;
         }
     }
     
@@ -51,6 +68,12 @@ public class AppConfig {
         // Background color of the Main window
         public static Color BACKGROUND_COLOR = new Color(105, 130, 90, 255);
 
+        // Data file location
+        public static String DATA_FILE_LOCATION = ".\\build\\.ikigai_task";
+
+        // Data file name
+        public static String DATA_FILE = "data.iki";
+
         @Override
         public String getTitle() {
             return TITLE;
@@ -69,6 +92,16 @@ public class AppConfig {
         @Override
         public Color getBackgroundColor() {
             return BACKGROUND_COLOR;
+        }
+
+        @Override
+        public String getDataFileLocation() {
+            return DATA_FILE_LOCATION;
+        }
+
+        @Override
+        public String getDataFile() {
+            return DATA_FILE;
         }
     }
     
@@ -86,6 +119,12 @@ public class AppConfig {
         // Background color of the Main window
         public static Color BACKGROUND_COLOR = new Color(255, 205, 155, 255);
 
+        // Data file location
+        public static String DATA_FILE_LOCATION = System.getenv("USERPROFILE") + "\\AppData\\Roaming\\.ikigai_task";
+
+        // Data file name
+        public static String DATA_FILE = "data.iki";
+
         @Override
         public String getTitle() {
             return TITLE;
@@ -105,13 +144,28 @@ public class AppConfig {
         public Color getBackgroundColor() {
             return BACKGROUND_COLOR;
         }
+
+        @Override
+        public String getDataFileLocation() {
+            return DATA_FILE_LOCATION;
+        }
+
+        @Override
+        public String getDataFile() {
+            return DATA_FILE;
+        }
     }
     
     public interface BuildConfig {
+
+        public final static String DATA_FILE_FORMAT = ".iki";
+
         String getTitle();
         int getHeight();
         int getWidth();
         Color getBackgroundColor();
+        String getDataFileLocation();
+        String getDataFile();
     }
 
     public static BuildConfig getDebugConstants() {
