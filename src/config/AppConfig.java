@@ -1,5 +1,7 @@
 package config;
-import java.awt.Color;
+
+import resource.Theme;
+import resource.Theme.ApplicationTheme;
 
 public class AppConfig {
     
@@ -14,8 +16,8 @@ public class AppConfig {
         // Width of the application
         public static int WIDTH = 800;
 
-        // Background color of the Main window
-        public static Color BACKGROUND_COLOR = new Color(255, 255, 255, 255);
+        // Theme for the application
+        public static Theme.ApplicationTheme theme = Theme.castOut();
 
         // Data file location
         public static String DATA_FILE_LOCATION = ".\\build\\.ikigai_task";
@@ -39,8 +41,8 @@ public class AppConfig {
         }
 
         @Override
-        public Color getBackgroundColor() {
-            return BACKGROUND_COLOR;
+        public ApplicationTheme getTheme() {
+            return theme;
         }
 
         @Override
@@ -65,8 +67,8 @@ public class AppConfig {
         // Default width of the application
         public static int WIDTH = 800;
         
-        // Background color of the Main window
-        public static Color BACKGROUND_COLOR = new Color(105, 130, 90, 255);
+        // Theme for the application
+        public static Theme.ApplicationTheme theme = Theme.castOut();
 
         // Data file location
         public static String DATA_FILE_LOCATION = ".\\build\\.ikigai_task";
@@ -90,8 +92,8 @@ public class AppConfig {
         }
 
         @Override
-        public Color getBackgroundColor() {
-            return BACKGROUND_COLOR;
+        public ApplicationTheme getTheme() {
+            return theme;
         }
 
         @Override
@@ -116,8 +118,8 @@ public class AppConfig {
         // Default width of the application
         public int WIDTH = 800;
         
-        // Background color of the Main window
-        public static Color BACKGROUND_COLOR = new Color(255, 205, 155, 255);
+        // Theme for the application
+        public static Theme.ApplicationTheme theme = Theme.castOut();
 
         // Data file location
         public static String DATA_FILE_LOCATION = System.getenv("USERPROFILE") + "\\AppData\\Roaming\\.ikigai_task";
@@ -141,8 +143,8 @@ public class AppConfig {
         }
 
         @Override
-        public Color getBackgroundColor() {
-            return BACKGROUND_COLOR;
+        public ApplicationTheme getTheme() {
+            return theme;
         }
 
         @Override
@@ -163,7 +165,7 @@ public class AppConfig {
         String getTitle();
         int getHeight();
         int getWidth();
-        Color getBackgroundColor();
+        ApplicationTheme getTheme();
         String getDataFileLocation();
         String getDataFile();
     }

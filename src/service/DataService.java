@@ -11,6 +11,7 @@ import model.Board;
 import model.Card;
 import model.ListData;
 import repository.DataRepo;
+import resource.Strings;
 
 /**
  * Service call to handle the data create/update and read
@@ -43,7 +44,7 @@ public class DataService {
                 boards = dataRepo.getBoards();
             } catch (Exception e) {
                 // Callback to update the UI
-                viewUpdate.onDataRequestFailed("No Board is found");
+                viewUpdate.onDataRequestFailed(Strings.NO_BOARD_FOUND);
             }
 
             // Callback to send data to the UI
@@ -66,7 +67,7 @@ public class DataService {
                 listDatas = dataRepo.getListDatas(String.valueOf(boardId));
             } catch (Exception e) {
                 // Callback to update the UI
-                viewUpdate.onDataRequestFailed("No List is found");
+                viewUpdate.onDataRequestFailed(Strings.NO_LIST_FOUND);
             }
 
             // Callback to send data to the UI
@@ -89,7 +90,7 @@ public class DataService {
                 cards = dataRepo.getCards(String.valueOf(boardId));
             } catch (Exception e) {
                 // Callback to update the UI
-                viewUpdate.onDataRequestFailed("No Card is found");
+                viewUpdate.onDataRequestFailed(Strings.NO_CARD_FOUND);
             }
 
             // Callback to send data to the UI
@@ -110,7 +111,7 @@ public class DataService {
         } catch (Exception e) {
             // Avoid throwing exception or displaying in the UI
             // This helper method will be used across method
-            System.out.println("No boards is available");
+            System.out.println(Strings.NO_BOARD_AVAILABLE);
         }
 
         // If boards is null, most likely file is not created
@@ -135,7 +136,7 @@ public class DataService {
         } catch (Exception e) {
             // Avoid throwing exception or displaying in the UI
             // This helper method will be used across method
-            System.out.println("No list is available");
+            System.out.println(Strings.NO_LIST_AVAILABLE);
         }
 
         // If listDatas is null, most likely file is not created
@@ -160,7 +161,7 @@ public class DataService {
         } catch (Exception e) {
             // Avoid throwing exception or displaying in the UI
             // This helper method will be used across method
-            System.out.println("No cards is available");
+            System.out.println(Strings.NO_CARD_AVAILABLE);
         }
 
         // If cards is null, most likely file is not created
@@ -185,7 +186,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidBoard(board)) {
-                    viewUpdate.onDataRequestFailed("Enter valid board name");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_BOARD_NAME);
                     return;
                 }
 
@@ -199,7 +200,7 @@ public class DataService {
 
                     // Check if board name already exists
                     if (board.getBoardName().toLowerCase().equals(boarddata.getBoardName().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("Board name already exists");
+                        viewUpdate.onDataRequestFailed(Strings.BOARD_NAME_EXISTS);
                         return;
                     }
                 }
@@ -216,15 +217,15 @@ public class DataService {
                 dataRepo.createBoard(boards);
 
                 // Send the update board list to UI
-                viewUpdate.onBoardWriteComplete("Board created successfully", boards);
+                viewUpdate.onBoardWriteComplete(Strings.BOARD_CREATE_SUCCESSFUL, boards);
 
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
@@ -252,7 +253,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidBoard(board)) {
-                    viewUpdate.onDataRequestFailed("Enter valid board name");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_BOARD_NAME);
                     return;
                 }
 
@@ -263,7 +264,7 @@ public class DataService {
                     // Verify the entered board doesn't exist
                     if (boardData.getId() != board.getId() 
                         && board.getBoardName().toLowerCase().equals(boardData.getBoardName().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("Board name already exists");
+                        viewUpdate.onDataRequestFailed(Strings.BOARD_NAME_EXISTS);
                         return;
                     } else if (board.getId() == boardData.getId()) {
                         // Copy the updated data to existing board data
@@ -276,15 +277,15 @@ public class DataService {
                 dataRepo.createBoard(boards);
 
                 // Send the update board list to UI
-                viewUpdate.onBoardWriteComplete("Board has been updated", boards);
+                viewUpdate.onBoardWriteComplete(Strings.BOARD_UPDATE_SUCCESSFUL, boards);
 
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
@@ -304,7 +305,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidListData(listData)) {
-                    viewUpdate.onDataRequestFailed("Enter valid List summary");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_LIST_SUMMARY);
                     return;
                 }
 
@@ -318,7 +319,7 @@ public class DataService {
 
                     // Check if the list name already exists
                     if (listData.getSummary().toLowerCase().equals(data.getSummary().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("List summary already exists");
+                        viewUpdate.onDataRequestFailed(Strings.LIST_SUMMARY_EXISTS);
                         return;
                     }
                 }
@@ -334,15 +335,15 @@ public class DataService {
                 dataRepo.createListData(String.valueOf(boardId), listDatas);
 
                 // Send the update listData list to UI
-                viewUpdate.onListDataWriteComplete("List created successfully", listDatas);
+                viewUpdate.onListDataWriteComplete(Strings.LIST_CREATE_SUCCESSFUL, listDatas);
             
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
@@ -371,7 +372,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidListData(listData)) {
-                    viewUpdate.onDataRequestFailed("Enter valid List summary");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_LIST_SUMMARY);
                     return;
                 }
 
@@ -383,7 +384,7 @@ public class DataService {
                     // Verify entered list data doesn't exists
                     if (data.getId() != listData.getId() 
                         && data.getSummary().toLowerCase().equals(listData.getSummary().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("List summary already exists");
+                        viewUpdate.onDataRequestFailed(Strings.LIST_SUMMARY_EXISTS);
                         return;
 
                     } else if (data.getId() == listData.getId()) {
@@ -397,15 +398,15 @@ public class DataService {
                 dataRepo.createListData(String.valueOf(boardId), listDatas);
 
                 // Send the update listData list to UI
-                viewUpdate.onListDataWriteComplete("List has been updated", listDatas);
+                viewUpdate.onListDataWriteComplete(Strings.LIST_UPDATE_SUCCESSFUL, listDatas);
             
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
@@ -425,7 +426,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidCard(card)) {
-                    viewUpdate.onDataRequestFailed("Enter valid card summary");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_CARD_SUMMARY);
                     return;
                 }
 
@@ -439,7 +440,7 @@ public class DataService {
 
                     // Check if the card summary already exists
                     if (card.getSummary().toLowerCase().equals(data.getSummary().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("Card summary already exists");
+                        viewUpdate.onDataRequestFailed(Strings.CARD_SUMMARY_EXISTS);
                         return;
                     }
                 }
@@ -455,15 +456,15 @@ public class DataService {
                 dataRepo.createCard(String.valueOf(boardId), cards);
 
                 // Send the update card list to UI
-                viewUpdate.onCardWriteComplete("Card has been created successfully", cards);
+                viewUpdate.onCardWriteComplete(Strings.CARD_CREATE_SUCCESSFUL, cards);
 
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
@@ -492,7 +493,7 @@ public class DataService {
             try {
                 // Ensure required fields for filled up
                 if (!isValidCard(card)) {
-                    viewUpdate.onDataRequestFailed("Enter valid card summary");
+                    viewUpdate.onDataRequestFailed(Strings.INVALID_CARD_SUMMARY);
                     return;
                 }
 
@@ -504,7 +505,7 @@ public class DataService {
                     // Verify entered card doesn't exists
                     if (data.getId() != card.getId() 
                         && data.getSummary().toLowerCase().equals(card.getSummary().toLowerCase())) {
-                        viewUpdate.onDataRequestFailed("Card summary already exists");
+                        viewUpdate.onDataRequestFailed(Strings.CARD_SUMMARY_EXISTS);
                         return;
 
                     } else if (data.getId() == card.getId()) {
@@ -521,15 +522,15 @@ public class DataService {
                 dataRepo.createCard(String.valueOf(boardId), cards);
 
                 // Send the update card list to UI
-                viewUpdate.onCardWriteComplete("Card has been updated", cards);
+                viewUpdate.onCardWriteComplete(Strings.CARD_UPDATE_SUCCESSFUL, cards);
 
             } catch (FileReadWriteException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to read the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_READ_FILE);
                 return;
             } catch (FileNotFoundException e) {
                 // Callback to Update the UI
-                viewUpdate.onDataRequestFailed("Unable to locate the file");
+                viewUpdate.onDataRequestFailed(Strings.CANNOT_LOCATE_FILE);
                 return;
             }
         });
