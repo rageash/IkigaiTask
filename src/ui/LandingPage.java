@@ -205,7 +205,7 @@ public class LandingPage extends JPanel {
         jPanel.add(name);
         
         // Description of the board
-        MultilineLabel description = new MultilineLabel(board.getDescription() + board.getDescription() + board.getCreatedDateTime() + board.getDescription());
+        MultilineLabel description = new MultilineLabel(board.getDescription());
         description.setPreferredSize(new Dimension(BOARD_CARD_WIDTH - Dimens.TEXT_PADDING, Dimens.FONT_16 * 4 + Dimens.TEXT_PADDING));
         description.setFont("Default", Dimens.FONT_16, TextAttribute.WEIGHT_LIGHT);
         jPanel.add(description);
