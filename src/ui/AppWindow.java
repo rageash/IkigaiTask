@@ -1,5 +1,7 @@
 package ui;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 import config.AppConfig;
@@ -9,6 +11,9 @@ public class AppWindow {
 
     // Master Frame
     private JFrame frame;
+    
+    // Landing Page
+    private LandingPage landingPage;
 
     public AppWindow(AppConfig.BuildConfig buildConfig) {
         this.buildConfig = buildConfig;
@@ -19,8 +24,12 @@ public class AppWindow {
         // initialize master ui
         frame = new JFrame(buildConfig.getTitle());
         frame.setSize(buildConfig.getWidth(), buildConfig.getHeight());
-        frame.getContentPane().setBackground(buildConfig.getBackgroundColor());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+
+        LandingPage landingPage = new LandingPage(buildConfig);
+        frame.add(landingPage);
+        
         frame.setVisible(true);
     }
 }
