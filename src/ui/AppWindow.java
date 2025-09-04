@@ -27,7 +27,7 @@ public class AppWindow {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
-        LandingPage landingPage = new LandingPage(buildConfig);
+        LandingPage landingPage = new LandingPage(frame, buildConfig);
         frame.add(landingPage);
         
         frame.setVisible(true);
