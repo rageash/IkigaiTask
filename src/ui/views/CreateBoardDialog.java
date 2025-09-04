@@ -18,6 +18,18 @@ import resource.Strings;
  */
 public class CreateBoardDialog extends JDialog {
 
+    private final static int HORIZONTAL_PADDING = 20;
+    private final static int VERTICAL_PADDING = 10;
+    private final static int LABEL_HEIGHT = 20;
+    private final static int TEXT_FIELD_HEIGHT = 30;
+    private final static int TEXT_AREA_HEIGHT = 230;
+    private final static int CANCEL_BUTTON_LEFT_PADDING = 270;
+    private final static int BUTTON_WIDTH = 100;
+    private final static int BUTTON_HEIGHT = 30;
+
+    private final static int BOARD_NAME_MAX_CHARACTER = 50;
+    private final static int DESCRIPTION_MAX_CHARACTER = 200;
+
     // Board name text field
     private JTextField boardNameField;
     // Board description text field
@@ -38,42 +50,66 @@ public class CreateBoardDialog extends JDialog {
         JPanel form = new JPanel();
         form.setPreferredSize(new Dimension(Dimens.CREATE_BOARD_DIALOG_WIDTH, Dimens.CREATE_BOARD_DIALOG_HEIGHT));
         form.setLayout(null);
+
+        // Calculated width for the Label and input fields
+        int fieldWidth = Dimens.CREATE_BOARD_DIALOG_WIDTH - HORIZONTAL_PADDING * 2;
+
+        // Iterating Y position for all the fields
+        int fieldYPos = VERTICAL_PADDING;
         
         // Board name label
         JLabel boardNameLabel = new JLabel(Strings.CREATE_BOARD_NAME);
-        boardNameLabel.setBounds(20, 10, 460, 20);
+        boardNameLabel.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, LABEL_HEIGHT);
+            
+        // Vertical padding + label height
+        fieldYPos += LABEL_HEIGHT;
 
         // Board name text field for input
         boardNameField = new JTextField();
-        boardNameField.setBounds(20, 30, 460, 30);
+        boardNameField.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, TEXT_FIELD_HEIGHT);
+
+        // + Text field height
+        fieldYPos += TEXT_FIELD_HEIGHT;
         
         // Board name error displaying label
         JLabel invalidBoardNameError = new JLabel();
         invalidBoardNameError.setForeground(Color.red);
-        invalidBoardNameError.setBounds(20, 60, 460, 20);
+        invalidBoardNameError.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, LABEL_HEIGHT);
+
+        // + Label height
+        fieldYPos += LABEL_HEIGHT;
 
         // Description label
         JLabel boardDescriptionLabel = new JLabel(Strings.CREATE_BOARD_DESCRIPTION);
-        boardDescriptionLabel.setBounds(20, 80, 460, 20);
+        boardDescriptionLabel.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, LABEL_HEIGHT);
+
+        // + Label height
+        fieldYPos += LABEL_HEIGHT + VERTICAL_PADDING;
 
         // Description text field for input
         descriptionTextArea = new JTextArea();
         descriptionTextArea.setLineWrap(true);
-        descriptionTextArea.setBounds(20, 110, 460, 230);
+        descriptionTextArea.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, TEXT_AREA_HEIGHT);
+
+        // + Text area height
+        fieldYPos += TEXT_AREA_HEIGHT;
 
         // Description error displaying label
         JLabel invalidBoardDescriptionError = new JLabel();
         invalidBoardDescriptionError.setForeground(Color.red);
-        invalidBoardDescriptionError.setBounds(20, 340, 460, 20);
+        invalidBoardDescriptionError.setBounds(HORIZONTAL_PADDING, fieldYPos, fieldWidth, LABEL_HEIGHT);
+
+        // + Label height
+        fieldYPos += LABEL_HEIGHT;
 
         // Cancel button for EAT 5 START
         JButton cancelButton = new JButton(Strings.CANCEL_BUTTON);
-        cancelButton.setBounds(270, 360, 100, 30);
+        cancelButton.setBounds(CANCEL_BUTTON_LEFT_PADDING, fieldYPos, BUTTON_WIDTH, BUTTON_HEIGHT);
         cancelButton.addActionListener((e) -> dispose());
 
         // Create button to create new board
         JButton createButton = new JButton(Strings.CREATE_BUTTON);
-        createButton.setBounds(380, 360, 100, 30);
+        createButton.setBounds(CANCEL_BUTTON_LEFT_PADDING + VERTICAL_PADDING + BUTTON_WIDTH, fieldYPos, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         // Well well well finaly some action
         createButton.addActionListener((e) -> {
@@ -90,11 +126,11 @@ public class CreateBoardDialog extends JDialog {
                     invalidBoardNameError.setText(Strings.INVALID_BOARD_NAME);
                     return;
                     //Check if entered board name doesn't reach the maximum character
-                } else if (!isValidNumberOfCharacter(boardNameField.getText(), 50)) {
+                } else if (!isValidNumberOfCharacter(boardNameField.getText(), BOARD_NAME_MAX_CHARACTER)) {
                     invalidBoardNameError.setText(Strings.BOARD_NAME_MAXIMUM_CHARACTER_REACHED);
                     return;
                     // Check if description is entered it doen't reached the maximum character
-                } if (isValid(descriptionTextArea.getText()) && !isValidNumberOfCharacter(descriptionTextArea.getText(), 200)) {
+                } if (isValid(descriptionTextArea.getText()) && !isValidNumberOfCharacter(descriptionTextArea.getText(), DESCRIPTION_MAX_CHARACTER)) {
                     invalidBoardDescriptionError.setText(Strings.DESCRIPTION_MAXIMUM_CHARACTER_REACHED);
                     return;
                 }
