@@ -6,11 +6,13 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.font.TextAttribute;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -26,6 +28,7 @@ import repository.DataRepo;
 import resource.Dimens;
 import resource.Strings;
 import service.DataService;
+import ui.views.CreateBoardDialog;
 import ui.views.MultilineLabel;
 
 /**
@@ -45,6 +48,7 @@ public class LandingPage extends JPanel {
     private final static int CREATE_BUTTON_RIGHT_PADDING = 30;
     private final static int CREATE_BUTTON_BOTTOM_PADDING = 20;
 
+    private JFrame frame;
     private AppConfig.BuildConfig appConfig;
     private DataService dataService;
 
@@ -60,7 +64,8 @@ public class LandingPage extends JPanel {
 
     private int noOfBoards = 0;
 
-    public LandingPage(AppConfig.BuildConfig appConfig) {
+    public LandingPage(JFrame frame, AppConfig.BuildConfig appConfig) {
+        this.frame = frame;
         this.appConfig = appConfig;
 
         this.dataService = new DataService(new DataRepo(appConfig), viewUpdate);
@@ -139,6 +144,9 @@ public class LandingPage extends JPanel {
         button.setFocusPainted(false);
         button.setOpaque(true);
         button.setBackground(appConfig.getTheme().getPrimaryButtonColor());
+        button.addActionListener((e) -> {
+            openCreateBoardDialog();
+        });
         
         // Scroll pane wraps the boardpanel
         scrollPane = new JScrollPane(boardPanel);
@@ -205,17 +213,30 @@ public class LandingPage extends JPanel {
         jPanel.add(name);
         
         // Description of the board
-        MultilineLabel description = new MultilineLabel(board.getDescription());
+        MultilineLabel description = new MultilineLabel((board.getDescription() == null || board.getDescription().length() <= 0) ? " " : board.getDescription());
         description.setPreferredSize(new Dimension(BOARD_CARD_WIDTH - Dimens.TEXT_PADDING, Dimens.FONT_16 * 4 + Dimens.TEXT_PADDING));
         description.setFont("Default", Dimens.FONT_16, TextAttribute.WEIGHT_LIGHT);
         jPanel.add(description);
         return jPanel;
     }
 
+    private void openCreateBoardDialog() {
+        CreateBoardDialog createBoardDialog = new CreateBoardDialog();
+        createBoardDialog.setResultPostListener((boardName, description) -> {
+            Board board = new Board();
+            board.setBoardName(boardName);
+            board.setDescription(description);
+            board.setCreatedDateTime(LocalDateTime.now());
+            dataService.createBoard(board);
+        });
+        createBoardDialog.setVisible(true);
+    }
+
     private ViewUpdate viewUpdate = new ViewUpdate() {
 
         @Override
         public void onBoardDataUpdate(List<Board> boards) {
+            boardPanel.removeAll();
             for (Board board: boards) {
                 boardPanel.add(constructBoard(board));
             }
@@ -225,7 +246,12 @@ public class LandingPage extends JPanel {
 
         @Override
         public void onBoardWriteComplete(String message, List<Board> boards) {
-
+            boardPanel.removeAll();
+            for (Board board: boards) {
+                boardPanel.add(constructBoard(board));
+            }
+            noOfBoards = boards.size();
+            updateBoardSize();
         }
 
         @Override

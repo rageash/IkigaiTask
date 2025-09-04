@@ -11,4 +11,7 @@ public class Dimens {
     public final static int DIMEN_100 = 100;
     
     public final static int TEXT_PADDING = 20;
+
+    public final static int CREATE_BOARD_DIALOG_WIDTH = 500;
+    public final static int CREATE_BOARD_DIALOG_HEIGHT = 400;
 }
